@@ -42,9 +42,9 @@ export function TimelineCard({
   const taggedMember = post.taggedMember
 
   return (
-    <article className="bg-white rounded-3xl border border-slate-200/70 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden transition-all hover:shadow-[0_6px_24px_rgba(0,0,0,0.05)]">
+    <article className="bg-white rounded-2xl border border-slate-200/70 overflow-hidden transition-colors hover:border-slate-300">
       {/* 1. Subtle, light header: "Posted by MNI Admin" & category pill */}
-      <div className="px-5 pt-3.5 pb-2.5 flex items-center justify-between">
+      <div className="px-5 sm:px-7 pt-5 pb-3 flex items-center justify-between">
         <span className="text-[11px] font-medium text-slate-400">
           Posted by MNI Admin
         </span>
@@ -55,27 +55,27 @@ export function TimelineCard({
       </div>
 
       {/* 2. Main Media & Creative Content */}
-      <div className="px-5 pb-3 space-y-3">
+      <div className="px-5 sm:px-7 pb-5 space-y-4">
         {/* Clean visual image without repetitive clunky overlay boxes */}
         {!isTextOnly && imageUrl && (
-          <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-slate-900 group">
+          <div className="relative rounded-xl overflow-hidden aspect-[16/9] lg:aspect-[2/1] bg-slate-100 group">
             <img
               src={imageUrl}
               alt={post.title}
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-102"
+              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.01]"
               loading="lazy"
             />
           </div>
         )}
 
         {/* Post Title Headline */}
-        <h3 className="text-base sm:text-lg font-bold text-[#102C60] leading-snug">
+        <h3 className="text-lg sm:text-xl font-semibold text-[#102C60] leading-snug">
           {post.title}
         </h3>
 
         {/* Post Content (if hybrid or text_only) */}
         {!isImageOnly && post.content && (
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          <p className="max-w-4xl text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
             {post.content}
           </p>
         )}
@@ -112,31 +112,31 @@ export function TimelineCard({
       </div>
 
       {/* 4. Action Buttons Bar: Info, Request, and Expand Image (image only) */}
-      <div className="px-5 py-3 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between gap-2">
-        <div className="flex items-center space-x-2 flex-1">
+      <div className="px-5 sm:px-7 py-3 border-t border-slate-100 flex items-center justify-end gap-2">
+        <div className="flex items-center space-x-2">
           {/* Info Button */}
-          <button
+          {taggedMember && <button
             onClick={() => onInfoClick(post)}
             type="button"
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#102C60] bg-white hover:bg-[#EAF0FC] border border-slate-200 transition-colors shadow-2xs active:scale-98"
+            className="inline-flex items-center justify-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-[#102C60] hover:bg-[#EAF0FC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215CE5] focus-visible:ring-offset-2"
           >
             <Info className="w-3.5 h-3.5 text-[#215CE5]" />
             <span>Info</span>
-          </button>
+          </button>}
 
           {/* Request Contact Button */}
-          <button
+          {taggedMember && <button
             onClick={() => onRequestClick(post)}
             type="button"
-            className={`flex-1 sm:flex-initial inline-flex items-center justify-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-2xs active:scale-98 ${
+            className={`inline-flex items-center justify-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215CE5] focus-visible:ring-offset-2 ${
               isRequested
-                ? 'bg-slate-100 text-slate-700 border border-slate-200'
-                : 'bg-[#215CE5] hover:bg-[#102C60] text-white shadow-[#215CE5]/20'
+                ? 'bg-slate-100 text-slate-700'
+                : 'bg-[#215CE5] hover:bg-[#102C60] text-white'
             }`}
           >
             <UserCheck className="w-3.5 h-3.5" />
             <span>{isRequested ? 'Requested' : 'Request'}</span>
-          </button>
+          </button>}
         </div>
 
         {/* Expand Image Button: strictly hidden for text-only posts */}
@@ -144,7 +144,7 @@ export function TimelineCard({
           <button
             onClick={() => onExpandClick(imageUrl, post.title, post.content || '')}
             type="button"
-            className="inline-flex items-center space-x-1 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-[#102C60] bg-white hover:bg-slate-50 border border-slate-200 transition-colors shadow-2xs"
+            className="inline-flex items-center space-x-1 px-3 py-2 rounded-lg text-xs font-semibold text-slate-500 hover:text-[#102C60] hover:bg-slate-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215CE5] focus-visible:ring-offset-2"
             title="Expand Image"
           >
             <Maximize2 className="w-3.5 h-3.5" />
