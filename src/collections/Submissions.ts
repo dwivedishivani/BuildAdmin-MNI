@@ -1,4 +1,6 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Access } from 'payload'
+
+const isAdmin: Access = ({ req }) => req.user?.collection === 'admins'
 
 export const Submissions: CollectionConfig = {
   slug: 'submissions',
@@ -7,9 +9,9 @@ export const Submissions: CollectionConfig = {
     defaultColumns: ['title', 'category', 'status', 'submittedByName', 'createdAt'],
   },
   access: {
-    read: () => true,
-    create: () => true, // Allowed for member submission flow
-    update: () => true,
+    read: isAdmin,
+    create: () => true, // Member submissions are created through the narrow submission endpoint.
+    update: isAdmin,
     delete: ({ req }) => req.user?.collection === 'admins',
   },
   fields: [
