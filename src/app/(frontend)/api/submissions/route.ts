@@ -2,9 +2,13 @@ import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const payload = await getPayload({ config: configPromise })
+    const { user } = await payload.auth({ headers: req.headers })
+    if (user?.collection !== 'admins') {
+      return NextResponse.json({ error: 'Admin access is required to view the review queue.' }, { status: 403 })
+    }
     const submissions = await payload.find({
       collection: 'submissions',
       sort: '-createdAt',
