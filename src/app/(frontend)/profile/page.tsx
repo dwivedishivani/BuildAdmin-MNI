@@ -11,8 +11,6 @@ import {
   Award,
   ShieldCheck,
   ChevronRight,
-  Trophy,
-  Coins,
   HelpCircle,
   LogIn,
   Compass,
@@ -43,9 +41,6 @@ interface ProfileData {
   memberId: string
   memberSince: string
   tier: 'premium' | 'pro' | 'starter'
-  mniCoins: number
-  referralCount: number
-  rank: number
   whatWeDo: string
   keyProductService: string
   idealClient: string
@@ -68,9 +63,6 @@ const NISHANT_FALLBACK: ProfileData = {
   memberId: 'MNI-002450',
   memberSince: 'October 2024',
   tier: 'premium',
-  mniCoins: 2000,
-  referralCount: 4,
-  rank: 3,
   whatWeDo: '"Another World India" a luxury boutique destination and travel management company committed to serving its customers by providing personalised and memorable travel experiences in the Indian Subcontinent and worldwide. We offer excellent professional service and the best standards in luxury travel by providing the finest of cultural, natural, architectural, and adventure travel experiences worldwide. \'Another World India\' is a prominent, independent, and progressive travel company devoted to providing unique travel experiences to its guests.',
   keyProductService: 'We offer excellent professional service and the best standards in luxury travel by providing the finest of cultural, natural, architectural, and adventure travel experiences worldwide.',
   idealClient: 'Business Travel , Leisure Travel with in India and overseas .',
@@ -93,9 +85,6 @@ const SHIVANI_FALLBACK: ProfileData = {
   memberId: 'MNI-002184',
   memberSince: 'October 2024',
   tier: 'premium',
-  mniCoins: 1500,
-  referralCount: 3,
-  rank: 4,
   whatWeDo: 'Strategic advisory helping SMEs streamline vendor management, contract negotiation, and multi-tier supply chain integrity across Southeast Asia.',
   keyProductService: 'Vendor audit, contract optimization, and executive procurement alignment.',
   idealClient: 'Medium-to-large industrial enterprises and regional manufacturers.',
@@ -209,59 +198,36 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-[#F3F6F8] pb-28 text-[#12233E]">
       <AppHeader />
 
-      <main className="max-w-xl mx-auto px-4 sm:px-6 pt-5 space-y-5">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         {/* Navy Profile Card with Plan Tier Badge & Edit CTA */}
-        <div className="bg-[#102C60] text-white rounded-3xl p-6 sm:p-7 shadow-lg flex flex-col items-center text-center space-y-3 relative overflow-hidden">
+        <div className="bg-[#102C60] text-white rounded-2xl p-5 sm:p-7 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 relative">
           {/* Top Edit Button */}
-          <div className="w-full flex justify-end">
+          <div className="w-full flex justify-end sm:order-3 sm:w-auto">
             <button
               onClick={handleOpenEdit}
               type="button"
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all active:scale-95 cursor-pointer shadow-xs"
+              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-lg bg-[#215CE5] hover:bg-blue-700 text-white text-xs font-semibold transition-colors active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#102C60]"
             >
               <Edit3 className="w-3.5 h-3.5 text-blue-200" />
               <span>Edit Profile</span>
             </button>
           </div>
 
-          <div className="w-20 h-20 rounded-3xl bg-white text-[#102C60] font-extrabold text-2xl flex items-center justify-center shadow-md ring-4 ring-white/10">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white text-[#102C60] font-extrabold text-2xl flex items-center justify-center flex-shrink-0">
             {profile.avatarInitials}
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center justify-center space-x-2">
+          <div className="space-y-1 sm:flex-1">
+            <div className="flex items-center space-x-2">
               <h1 className="text-xl sm:text-2xl font-bold">{profile.fullName}</h1>
-              <MemberBadge tier={profile.tier} showTier={true} />
+              <MemberBadge tier={profile.tier} showTier={false} />
             </div>
             <p className="text-xs text-blue-200 font-medium">
               {profile.businessName}
             </p>
-            <p className="text-[11px] text-slate-300">
-              MNI Member • {profile.businessCategory}
-            </p>
+            <p className="text-[11px] text-blue-100">{profile.businessCategory} · Member since {profile.memberSince}</p>
           </div>
 
-          {/* Gamified Coins & Meetup Rank Strip */}
-          <div className="w-full pt-3 border-t border-white/15 flex items-center justify-around text-center">
-            <div>
-              <span className="text-[10px] text-blue-200 uppercase font-semibold block">MNI Coins</span>
-              <div className="flex items-center justify-center space-x-1 font-extrabold text-amber-300 text-base">
-                <Coins className="w-4 h-4" />
-                <span>{profile.mniCoins.toLocaleString()}</span>
-              </div>
-            </div>
-
-            <div className="w-px h-8 bg-white/20" />
-
-            <div>
-              <span className="font-extrabold text-white text-base">#{profile.rank} on Board</span>
-            </div>
-
-            <div>
-              <span className="text-[10px] text-blue-200 uppercase font-semibold block">Referrals</span>
-              <span className="font-extrabold text-white text-base">{profile.referralCount} Confirmed</span>
-            </div>
-          </div>
         </div>
 
         {/* Section Tabs: What We Do | Networking & Call Times | Account */}
@@ -274,7 +240,7 @@ export default function ProfilePage() {
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            What We Do
+            Business
           </button>
           <button
             onClick={() => setActiveSection('preferences')}
@@ -284,7 +250,7 @@ export default function ProfilePage() {
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            Networking & Call Times
+            Networking
           </button>
           <button
             onClick={() => setActiveSection('account')}
@@ -294,7 +260,7 @@ export default function ProfilePage() {
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            Account Details
+            Contact
           </button>
         </div>
 
@@ -302,7 +268,7 @@ export default function ProfilePage() {
         {activeSection === 'business' && (
           <div className="space-y-4">
             {/* What Exactly Do You Do */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-2xs space-y-2">
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 space-y-2">
               <div className="flex items-center space-x-2 text-[#102C60]">
                 <Compass className="w-4 h-4 text-[#215CE5]" />
                 <h3 className="text-xs font-bold uppercase tracking-wider text-[#102C60]">
@@ -328,7 +294,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Official Website */}
-            <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs flex items-center justify-between">
+            <div className="bg-white rounded-2xl p-4 border border-slate-200/80 flex items-center justify-between">
               <div className="flex items-center space-x-2 text-slate-700 text-xs">
                 <Globe className="w-4 h-4 text-[#215CE5]" />
                 <span className="font-semibold">Company Website:</span>
@@ -350,7 +316,7 @@ export default function ProfilePage() {
           <div className="space-y-4">
             {/* Ideal Client & Opportunity Looking For */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-2xs space-y-1.5">
+              <div className="bg-white rounded-2xl p-4 border border-slate-200/80 space-y-1.5">
                 <div className="flex items-center space-x-1.5 text-slate-700">
                   <Target className="w-3.5 h-3.5 text-[#215CE5]" />
                   <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
@@ -377,7 +343,7 @@ export default function ProfilePage() {
 
             {/* Target Connections */}
             {profile.targetConnections && (
-              <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-2xs space-y-1.5">
+              <div className="bg-white rounded-2xl p-5 border border-slate-200/80 space-y-1.5">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Target Connections You Would Like to Meet
                 </h4>
@@ -388,7 +354,7 @@ export default function ProfilePage() {
             )}
 
             {/* Preferred Call Day & Time Slot */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-2xs space-y-3">
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 Preferred Call Schedule
               </h4>
@@ -431,7 +397,7 @@ export default function ProfilePage() {
         {/* SECTION 3: ACCOUNT COORDINATES */}
         {activeSection === 'account' && (
           <div className="space-y-3">
-            <div className="bg-white rounded-3xl p-5 border border-slate-200/70 shadow-sm space-y-3">
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/70 space-y-3">
               <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 Account Coordinates
               </h2>
@@ -530,9 +496,7 @@ export default function ProfilePage() {
             <div className="bg-[#102C60] text-white p-5 flex items-center justify-between">
               <div>
                 <h3 className="text-base sm:text-lg font-bold">Edit Business Profile</h3>
-                <p className="text-xs text-blue-200">
-                  Update your business details. Changes go live immediately and are submitted for Admin review.
-                </p>
+                <p className="text-xs text-blue-200">Submit updates for Admin review.</p>
               </div>
               <button
                 onClick={() => setIsEditModalOpen(false)}

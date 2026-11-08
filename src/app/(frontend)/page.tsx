@@ -9,8 +9,7 @@ import { FilterChips } from '@/components/timeline/FilterChips'
 import { MemberInfoModal, TaggedMemberData } from '@/components/modals/MemberInfoModal'
 import { ContactRequestModal } from '@/components/modals/ContactRequestModal'
 import { ImageViewerModal } from '@/components/modals/ImageViewerModal'
-import Link from 'next/link'
-import { RefreshCw, Sparkles, ArrowRight } from 'lucide-react'
+import { RefreshCw, Sparkles } from 'lucide-react'
 
 export default function HomePage() {
   const [banners, setBanners] = useState<BannerItem[]>([])
@@ -109,7 +108,7 @@ export default function HomePage() {
       {/* MNI Official Navigation Header with safe area padding */}
       <AppHeader />
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 pt-4 space-y-5">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         {/* TOP PROMOTIONAL AD CAROUSEL (2-3 Banners Max with 4s auto-rotation) */}
         <section aria-label="Featured Banners" className="w-full">
           <AdCarousel
@@ -126,12 +125,10 @@ export default function HomePage() {
         <section className="space-y-3 pt-1">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#102C60]">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#102C60]">
                 Inside your network
               </h1>
-              <p className="text-xs text-slate-400">
-                Opportunities and introductions curated by MNI Admin
-              </p>
+              <p className="text-sm text-slate-500">Latest updates from MNI</p>
             </div>
 
             <button
@@ -152,13 +149,13 @@ export default function HomePage() {
         </section>
 
         {/* TIMELINE FEED */}
-        <section className="space-y-4" aria-label="Member Timeline Feed">
+        <section className="space-y-5" aria-label="MNI community timeline">
           {loading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((n) => (
                 <div
                   key={n}
-                  className="bg-white rounded-3xl p-5 border border-slate-100 space-y-3 animate-pulse"
+                  className="bg-white rounded-2xl p-5 border border-slate-100 space-y-3 animate-pulse"
                 >
                   <div className="h-4 bg-slate-200 rounded w-1/4" />
                   <div className="h-48 bg-slate-200 rounded-2xl" />
@@ -167,7 +164,7 @@ export default function HomePage() {
               ))}
             </div>
           ) : filteredPosts.length === 0 ? (
-            <div className="p-12 text-center bg-white rounded-3xl border border-slate-200/80 space-y-3">
+            <div className="p-12 text-center bg-white rounded-2xl border border-slate-200/80 space-y-3">
               <Sparkles className="w-8 h-8 text-slate-300 mx-auto" />
               <h3 className="text-base font-bold text-[#102C60]">No posts found</h3>
               <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -175,7 +172,7 @@ export default function HomePage() {
               </p>
             </div>
           ) : (
-            filteredPosts.map((post, index) => (
+            filteredPosts.map((post) => (
               <React.Fragment key={post.id}>
                 <TimelineCard
                   post={post}
@@ -188,39 +185,11 @@ export default function HomePage() {
                   )}
                 />
 
-                {/* INLINE REQUIREMENT SUBMISSION CALLOUT: placed smoothly after post 2 */}
-                {index === 1 && (
-                  <div className="my-2 p-5 rounded-3xl bg-gradient-to-br from-[#102C60] to-[#153775] text-white shadow-sm flex items-center justify-between space-x-4">
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-blue-200 block">
-                        Looking for a partner or vendor?
-                      </span>
-                      <h4 className="text-sm sm:text-base font-bold leading-tight">
-                        Submit a requirement to MNI Admin
-                      </h4>
-                      <p className="text-[11px] text-slate-300 leading-snug">
-                        Share your business scope for review and curated publication to the network.
-                      </p>
-                    </div>
-
-                    <Link
-                      href="/submit"
-                      className="inline-flex items-center space-x-1.5 px-4 py-2.5 rounded-xl bg-[#215CE5] hover:bg-white hover:text-[#102C60] text-white text-xs font-bold shadow-md transition-all flex-shrink-0 active:scale-95"
-                    >
-                      <span>Submit</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                )}
               </React.Fragment>
             ))
           )}
         </section>
 
-        {/* Footer Note */}
-        <div className="pt-4 pb-2 text-center text-[11px] text-slate-400">
-          MNI Business Bulletin • Timeline managed by MNI Administration
-        </div>
       </main>
 
       {/* FIXED BOTTOM NAVIGATION */}

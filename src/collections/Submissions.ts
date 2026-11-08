@@ -1,4 +1,7 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Access, FieldAccess } from 'payload'
+
+const isAdmin: Access = ({ req }) => req.user?.collection === 'admins'
+const adminFieldAccess: FieldAccess = ({ req }) => req.user?.collection === 'admins'
 
 export const Submissions: CollectionConfig = {
   slug: 'submissions',
@@ -7,9 +10,9 @@ export const Submissions: CollectionConfig = {
     defaultColumns: ['title', 'category', 'status', 'submittedByName', 'createdAt'],
   },
   access: {
-    read: () => true,
-    create: () => true, // Allowed for member submission flow
-    update: () => true,
+    read: isAdmin,
+    create: () => true, // Member submissions are created through the narrow submission endpoint.
+    update: isAdmin,
     delete: ({ req }) => req.user?.collection === 'admins',
   },
   fields: [
@@ -69,6 +72,10 @@ export const Submissions: CollectionConfig = {
     },
     {
       name: 'status',
+      access: {
+        create: adminFieldAccess,
+        update: adminFieldAccess,
+      },
       type: 'select',
       required: true,
       options: [
@@ -82,10 +89,18 @@ export const Submissions: CollectionConfig = {
     },
     {
       name: 'adminFeedback',
+      access: {
+        create: adminFieldAccess,
+        update: adminFieldAccess,
+      },
       type: 'textarea',
     },
     {
       name: 'associatedPost',
+      access: {
+        create: adminFieldAccess,
+        update: adminFieldAccess,
+      },
       type: 'relationship',
       relationTo: 'posts',
     },

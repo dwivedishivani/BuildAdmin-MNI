@@ -24,6 +24,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const payload = await getPayload({ config: configPromise })
+    const { user } = await payload.auth({ headers: req.headers })
+    if (user?.collection !== 'admins') {
+      return NextResponse.json({ error: 'Only MNI Admin can publish timeline posts.' }, { status: 403 })
+    }
     const body = await req.json()
     const { title, postType, category, badgeText, content, imageUrlFallback, taggedMemberId } = body
 
@@ -33,7 +37,8 @@ export async function POST(req: Request) {
 
     const newPost = await payload.create({
       collection: 'posts',
-      overrideAccess: true,
+      overrideAccess: false,
+      user,
       data: {
         title,
         postType: postType || 'text_only',
