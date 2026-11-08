@@ -5,6 +5,10 @@ import configPromise from '@/payload.config'
 export async function POST(req: Request) {
   try {
     const payload = await getPayload({ config: configPromise })
+    const { user } = await payload.auth({ headers: req.headers })
+    if (user?.collection !== 'admins') {
+      return NextResponse.json({ error: 'Admin access is required to review submissions.' }, { status: 403 })
+    }
     const body = await req.json()
     const { id, action, adminFeedback, postData } = body
 
