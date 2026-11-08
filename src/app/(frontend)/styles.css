@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --mni-blue: #215CE5;
+    --mni-deep-navy: #102C60;
+    --mni-ink: #12233E;
+    --mni-bg: #F3F6F8;
+    --mni-white: #FFFFFF;
+    --mni-pale: #EAF0FC;
+    --mni-muted: #687B92;
+    --mni-green: #167C60;
+  }
+
+  body {
+    background-color: var(--mni-bg);
+    color: var(--mni-ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.figma-custom-code-fragment {
+  display: contents;
+}
+
+.figma-bypass-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 2147483647;
+  transform: translateY(-150%);
+  border-radius: 6px;
+  background: #102C60;
+  color: #fff;
+  padding: 8px 12px;
+  font: 600 14px/1.2 system-ui, sans-serif;
+  text-decoration: none;
+}
+
+.figma-bypass-link:focus {
+  transform: translateY(0);
+}
+
+/* Custom scrollbar hiding for clean mobile swipe carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
