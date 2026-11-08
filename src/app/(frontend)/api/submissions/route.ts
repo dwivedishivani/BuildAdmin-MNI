@@ -43,7 +43,6 @@ export async function POST(req: Request) {
         submittedByName: submittedByName || 'Shivani Dwivedi',
         submittedByEmail: submittedByEmail || 'shivani@example.com',
         supportingImageUrl: supportingImageUrl || '',
-        status: 'pending',
       },
     })
 
